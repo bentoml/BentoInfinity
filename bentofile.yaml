@@ -1,4 +1,4 @@
-service: "service.py:InfinityBento"
+service: "service.py:INFINITY"
 labels:
   owner: bentoml-team
   project: gallery

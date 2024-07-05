@@ -25,22 +25,13 @@ cd BentoInfinity
 Make sure you are in the `BentoInfinity` directory and mount it from your host machine (`${PWD}`) into a Docker container at `/BentoInfinity`. This means that the files and folders in the current directory are available inside the container at the `/BentoInfinity`.
 
 ```bash
-docker run --runtime=nvidia --gpus all -v ${PWD}:/BentoInfinity -v ~/bentoml:/root/bentoml -p 7997:7997 --entrypoint /bin/bash -it --workdir /BentoInfinity michaelf34/infinity v2
+docker run --runtime=nvidia --gpus all -v ${PWD}:/BentoInfinity -v ~/bentoml:/root/bentoml -p 3000:3000 --entrypoint /bin/bash -it --workdir /BentoInfinity michaelf34/infinity v2
 ```
 
 Install dependencies.
 
 ```bash
-cd multi-model-deployment
 pip install -r requirements.txt
-```
-
-## Download the model
-
-Run the script to download Llama 3 to the BentoML [Model Store](https://docs.bentoml.com/en/latest/guides/model-store.html).
-
-```bash
-python import_model.py
 ```
 
 ## Run the BentoML Service
@@ -49,10 +40,10 @@ We have defined a BentoML Service in `service.py`. Run `bentoml serve` in your p
 
 ```bash
 $ bentoml serve .
-2024-06-06T10:31:45+0000 [INFO] [cli] Starting production HTTP BentoServer from "service:TGI" listening on http://localhost:3000 (Press CTRL+C to quit)
+2024-06-06T10:31:45+0000 [INFO] [cli] Starting production HTTP BentoServer from "service:INFINITY" listening on http://localhost:3000 (Press CTRL+C to quit)
 ```
 
-The server is now active at [http://localhost:7997](http://localhost:7997/). You can interact with it using the Swagger UI or in other different ways.
+The server is now active at [http://localhost:3000](http://localhost:3000/). You can interact with it using the Swagger UI or in other different ways.
 
 <details>
 
@@ -60,7 +51,7 @@ The server is now active at [http://localhost:7997](http://localhost:7997/). You
 
 ```bash
 curl -X 'POST' \
-  'http://localhost:7997/embeddings' \
+  'http://localhost:3000/embeddings' \
   -H 'Content-Type: application/json' \
   -d '{
   "input": ["Explain superconductors like I am five years old"],
@@ -77,7 +68,7 @@ curl -X 'POST' \
 ```python
 import bentoml
 
-with bentoml.SyncHTTPClient("http://localhost:7997") as client:
+with bentoml.SyncHTTPClient("http://localhost:3000") as client:
     response_generator = client.embed( # TODO: Verify this works
         input="Explain superconductors like I am five years old",
         model= "BAAI/bge-small-en-v1.5"
