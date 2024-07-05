@@ -1,5 +1,3 @@
-# BentoInfinity
-
 <div align="center">
     <h1 align="center">Self-host LLMs with Infinity and BentoML</h1>
 </div>
