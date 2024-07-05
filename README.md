@@ -69,12 +69,13 @@ curl -X 'POST' \
 import bentoml
 
 with bentoml.SyncHTTPClient("http://localhost:3000") as client:
-    response_generator = client.embed( # TODO: Verify this works
-        input="Explain superconductors like I am five years old",
+    response = client.embeddings( 
+        input=["Explain superconductors like I am five years old"],
         model= "BAAI/bge-small-en-v1.5"
     )
-    for response in response_generator:
-        print(response, end='')
+    print(f"Embeddings dim:"
+          f" {len(response['embeddings']), len(response['embeddings'][0])}"
+          f"usage: {response['usage']}")
 ```
 
 </details>

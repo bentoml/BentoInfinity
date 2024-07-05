@@ -1,6 +1,6 @@
 import bentoml
 import typing as t
-
+import numpy as np
 
 @bentoml.service(
     traffic={"timeout": 120},
@@ -43,7 +43,8 @@ class INFINITY:
     async def embeddings(self, input: list[str], model: str) -> t.Dict:
         await self.array.astart()
         embeddings, usage = await self.array[model].embed(sentences=input)
-        return {"embeddings_image": embeddings, "usage": usage}
+        embeddings = np.array(embeddings).tolist()
+        return {"embeddings": embeddings, "usage": usage}
 
     @bentoml.api
     async def rerank(self, query: str, docs: list[str], model: str) -> t.Dict:
@@ -52,7 +53,8 @@ class INFINITY:
         return {"rankings": rankings, "usage": usage}
 
     @bentoml.api
-    async def embed(self, image_urls: list[str], model: str) -> t.Dict:
+    async def imageembed(self, image_urls: list[str], model: str) -> t.Dict:
         await self.array.astart()
         embeddings_image, usage = await self.array[model].image_embed(images=image_urls)
+        embeddings_image = np.array(embeddings_image).tolist()
         return {"embeddings": embeddings_image, "usage": usage}
