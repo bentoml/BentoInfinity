@@ -6,6 +6,4 @@ include:
   - "*.py"
 python:
   requirements_txt: requirements.txt
-docker:
-  system_packages:
-    - git
+
