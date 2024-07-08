@@ -2,6 +2,7 @@ import bentoml
 import typing as t
 import numpy as np
 
+
 @bentoml.service(
     traffic={"timeout": 120},
     resources={
