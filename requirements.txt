@@ -1,2 +1,2 @@
 bentoml>=1.2.17
-infinity_emb[all]==0.0.72
+infinity_emb[all]>=0.0.72
